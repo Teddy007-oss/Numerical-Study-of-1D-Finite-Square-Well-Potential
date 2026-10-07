@@ -8,14 +8,17 @@ implicit none
 
 !defining variables
 real(kind = 8) :: x0,x1,x2,x3, delta, x, f, a, b, c
-real(kind = 8), parameter :: tol = 3.0
+real(kind = 8), parameter :: tol = 1.0d-12
+integer :: n
 
 !making three guesses 
 x0 = 0.5
 x1 = 4
 x2 = 5
+n = 0
 
 do
+n = n + 1
 
 ! lets evaluate a,b and c (this will be explained in a readme file)
 a = ((x1 - x2) * (f(x0) - f(x2)) - (x0 - x2)*(f(x1) - f(x2))) / ((x0 - x1)*(x0 - x2)*(x1 - x2))
@@ -44,17 +47,17 @@ x3 = x2 + delta
 
 end if
 
+print*, n, x3
+
 x0 = x1
 x1 = x2
 x2 = x3
 
-if (abs(delta) .le. tol) then
-
-print*, x3
-
-end if
-    exit
+! stop once the step is smaller than the tolerance (or after 50 tries, in case it does not converge)
+if (abs(delta) .le. tol .or. n .ge. 50) exit
 end do
+
+print*, 'root =', x3, ' found in', n, 'iterations'
 
 end program quadraticapproximation
 

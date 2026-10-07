@@ -1,0 +1,5 @@
+# produced by ./run_all.sh
+bin/
+data/
+*.mod
+.claude
